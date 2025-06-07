@@ -5,3 +5,21 @@ export const instance = axios.create({
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 })
+
+instance.interceptors.request.use(
+  (config) => config,
+  (err) => {
+    console.error('Request Error:', err.response?.data || err.message)
+    return Promise.reject(err)
+  },
+)
+
+instance.interceptors.response.use(
+  (res) => res.data,
+  (err) => {
+    console.error('Response Error:', err.response?.data || err.message)
+    return Promise.reject(err)
+  },
+)
+
+export default instance
